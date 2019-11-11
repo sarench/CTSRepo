@@ -80,4 +80,11 @@ public class Record {
 		this.errorDesc = errorDesc;
 	}
 
+	@Override
+	public String toString() {
+		return "Record [reference=" + reference + ", accountNumber=" + accountNumber + ", description=" + description
+				+ ", startBalance=" + startBalance + ", mutation=" + mutation + ", endBalance=" + endBalance
+				+ ", errorDesc=" + errorDesc + "]";
+	}
+
 }
