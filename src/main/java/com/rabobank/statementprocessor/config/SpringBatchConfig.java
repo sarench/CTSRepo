@@ -34,6 +34,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import com.rabobank.statementprocessor.bo.Record;
+import com.rabobank.statementprocessor.steps.ExceptionSkipListener;
 import com.rabobank.statementprocessor.steps.RecordProcessor;
 import com.rabobank.statementprocessor.steps.ReportDeleteTasklet;
 
@@ -98,12 +99,16 @@ public class SpringBatchConfig {
     }
 	
 	@Bean
-	public Step xmlProcessingStep(ItemReader<Record> xmlReader, StepBuilderFactory stepBuilderFactory) {
+	public Step xmlProcessingStep(ItemReader<Record> xmlReader, StepBuilderFactory stepBuilderFactory, ExceptionSkipListener skipListener) {
 
 		return stepBuilderFactory.get("xmlProcessingStep").<Record, Record>chunk(5)
 				.reader(xmlReader)
 				.processor(processor())
 				.writer(writer())
+				.faultTolerant()
+				.skipLimit(2)
+				.skip(NullPointerException.class)
+				.listener(skipListener)
 				.build();
 	}
 
@@ -126,7 +131,7 @@ public class SpringBatchConfig {
 	// XML Reader Defn
 	@Bean
 	ItemReader<Record> xmlReader(Environment environment) {
-		StaxEventItemReader<Record> xmlFileReader = new StaxEventItemReader<>();
+		StaxEventItemReader<Record> xmlFileReader = new StaxEventItemReader<Record>();
 		xmlFileReader.setResource((new FileSystemResource(environment.getRequiredProperty(PROPERTY_INPUT_XML_FILE))));
 		xmlFileReader.setFragmentRootElementName("record");
 
