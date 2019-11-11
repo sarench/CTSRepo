@@ -126,7 +126,7 @@ public class SpringBatchConfig {
 	// XML Reader Defn
 	@Bean
 	ItemReader<Record> xmlReader(Environment environment) {
-		StaxEventItemReader<Record> xmlFileReader = new StaxEventItemReader<>();
+		StaxEventItemReader<Record> xmlFileReader = new StaxEventItemReader<Record>();
 		xmlFileReader.setResource((new FileSystemResource(environment.getRequiredProperty(PROPERTY_INPUT_XML_FILE))));
 		xmlFileReader.setFragmentRootElementName("record");
 
