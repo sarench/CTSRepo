@@ -106,8 +106,8 @@ public class SpringBatchConfig {
 				.processor(processor())
 				.writer(writer())
 				.faultTolerant()
-				.skipLimit(2)
-				.skip(NullPointerException.class)
+				.skipLimit(3)
+				.skip(Throwable.class)
 				.listener(skipListener)
 				.build();
 	}

@@ -1,9 +1,6 @@
 package com.rabobank.statementprocessor.steps;
 
 import org.springframework.batch.core.SkipListener;
-import org.springframework.batch.core.annotation.OnSkipInProcess;
-import org.springframework.batch.core.annotation.OnSkipInRead;
-import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.stereotype.Component;
 
 import com.rabobank.statementprocessor.bo.Record;
